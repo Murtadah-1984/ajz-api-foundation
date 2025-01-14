@@ -1,0 +1,71 @@
+{
+    "name": "ajz/laravel-api-foundation",
+    "description": "A comprehensive Laravel API foundation package",
+    "type": "library",
+    "require": {
+        "laravel/passport": "^12.3",
+        "laravel/pint": "^1.19",
+        "larastan/larastan": "^3.0",
+        "laravel/octane": "^2.6",
+        "darkaonline/l5-swagger": "^8.6",
+        "laravel/sanctum": "^4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.9",
+        "orchestra/testbench-dusk": "^9.11",
+        "friendsofphp/php-cs-fixer": "^3.68"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ajz\\ApiBase\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Murtadah Haddad",
+            "email": "murtadah.haddad@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ajz\\ApiBase\\Providers\\ApiBaseServiceProvider"
+            ],
+            "aliases": {
+                "ApiCache": "Ajz\\ApiBase\\Facades\\ApiCache",
+                "ApiMonitor": "Ajz\\ApiBase\\Facades\\ApiMonitor",
+                "ApiSecurity": "Ajz\\ApiBase\\Facades\\ApiSecurity"
+            }
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare",
+            "@dusk:install-chromedriver"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "dusk:install-chromedriver": "@php vendor/bin/dusk-updater detect --auto-update --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ],
+        "lint": [
+            "@php vendor/bin/pint --ansi",
+            "@php vendor/bin/phpstan analyse --verbose --ansi"
+        ]
+    }
+}
